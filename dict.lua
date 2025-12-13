@@ -71,7 +71,18 @@ local getword = function(data)
 end
 
 -- Read 'database'
-d = readtsv('res/en-de.tsv')
+-- User can also choose language
+if #arg < 1 then
+	-- German by default
+	d = readtsv('res/en-de.tsv')
+else
+	lang = arg[1]
+	if lang == 'ro' or lang == 'de' then
+		d = readtsv('res/en-'..lang..'.tsv')
+	else
+		d = readtsv('res/en-de.tsv')
+	end
+end
 
 -- Clear screen
 io.write(esc..'0;0H'..esc..'2J')
@@ -80,11 +91,12 @@ io.flush()
 -- Game loop
 while lose < max do
 	-- Grab a random word
-	if arg[1] == 'reverse' then
+	if arg[1] == 'r' or arg[2] == 'r' then
 		ans, word, position = getword(d)
 	else
 		word, ans, position = getword(d)
 	end
+	
 	opt=io.read()
 
 	if opt == ans or tonumber(opt) == position then
