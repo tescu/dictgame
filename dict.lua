@@ -2,8 +2,9 @@
 -- Dictgame
 -- TODO (in order of importance):
 -- * choose language at runtime
--- * option between typing the word or choosing it via its assigned number
--- * randomize options
+--   * also perhaps only require one file for a language, reversing its entries?
+-- X option between typing the word or choosing it via its assigned number
+-- X randomize options
 -- * make interface pretty/readable
 -- * more game modes
 -- * more languages
@@ -16,6 +17,10 @@ local score = 0
 local lose = 0
 -- Maximum number of wrong guesses
 local max = 3
+-- Maximum number of words to choose from
+local maxopt = 3
+-- Others
+local esc='\27['
 
 -- Read and parse the tsv file
 local function readtsv(filename)
@@ -47,22 +52,42 @@ local function readtsv(filename)
 	return data
 end
 
-d = readtsv('res/en-de.tsv')
-
-while lose < max do
+local getword = function(data)
 	nr = math.random(1,#d)
 	print(d[nr].word)
-	print('options:')
-	print('\t'..d[math.random(1,#d)].def)
-	print('\t'..d[nr].def)
-	print('\t'..d[math.random(1,#d)].def)
+	print('choose:')
+	-- Randomize answer position
+	local position = math.random(1,3)
+	for i=1,3 do
+		if i == position then
+			print('\t'..d[nr].def)
+		else
+			print('\t'..d[math.random(1,#d)].def)
+		end
+	end
+
+	-- Get the word and its true definition
+	return d[nr].word, d[nr].def, position
+end
+
+-- Read 'database'
+d = readtsv('res/de-en.tsv')
+
+-- Clear screen
+io.write(esc..'0;0H'..esc..'2J')
+io.flush()
+
+-- Game loop
+while lose < max do
+	-- Grab a random word
+	word, ans, position = getword(d)
 	opt=io.read()
 
-	if opt == d[nr].def then
-		print('Correct!')
+	if opt == ans or tonumber(opt) == position then
+		print(esc..'31m'..'Correct!'..esc..'m')
 		score = score+1
 	else
-		print('Wrong! '..max-lose..' tries left.')
+		print(esc..'32m'..'Wrong! '..max-lose..' tries left.'..esc..'m')
 		lose = lose+1
 	end
 end
