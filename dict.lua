@@ -2,7 +2,7 @@
 -- Dictgame
 -- TODO (in order of importance):
 -- * choose language at runtime
---   * also perhaps only require one file for a language, reversing its entries?
+--   X also perhaps only require one file for a language, reversing its entries?
 -- X option between typing the word or choosing it via its assigned number
 -- X randomize options
 -- * make interface pretty/readable
@@ -18,7 +18,7 @@ local lose = 0
 -- Maximum number of wrong guesses
 local max = 3
 -- Maximum number of words to choose from
-local maxopt = 3
+local maxopt = 4
 -- Others
 local esc='\27['
 
@@ -57,8 +57,8 @@ local getword = function(data)
 	print(d[nr].word)
 	print('choose:')
 	-- Randomize answer position
-	local position = math.random(1,3)
-	for i=1,3 do
+	local position = math.random(1,maxopt)
+	for i=1,maxopt do
 		if i == position then
 			print('\t'..d[nr].def)
 		else
@@ -71,7 +71,7 @@ local getword = function(data)
 end
 
 -- Read 'database'
-d = readtsv('res/de-en.tsv')
+d = readtsv('res/en-de.tsv')
 
 -- Clear screen
 io.write(esc..'0;0H'..esc..'2J')
@@ -80,7 +80,11 @@ io.flush()
 -- Game loop
 while lose < max do
 	-- Grab a random word
-	word, ans, position = getword(d)
+	if arg[1] == 'reverse' then
+		ans, word, position = getword(d)
+	else
+		word, ans, position = getword(d)
+	end
 	opt=io.read()
 
 	if opt == ans or tonumber(opt) == position then
