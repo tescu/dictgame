@@ -99,7 +99,8 @@ while lose <= max do
 		print(esc..'31m'..'Correct!'..esc..'m')
 		score = score+1
 	else
-		print(esc..'32m'..'Wrong! '..max-lose..' tries left.'..esc..'m')
+		print(esc..'32mWrong! '..max-lose..' tries left.'..esc..'m')
+		print(esc..'32mThe correct word was: '..esc..'m'..ans)
 		lose = lose+1
 	end
 end
