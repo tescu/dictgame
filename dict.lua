@@ -7,8 +7,7 @@
 -- X randomize options
 -- * make interface pretty/readable
 -- * more game modes
--- * more languages
--- * custom dictionaries?
+-- X more languages
 
 math.randomseed(os.time())
 
@@ -73,8 +72,10 @@ end
 -- Read 'database'
 -- User can also choose language
 if #arg < 1 then
-	-- German by default
-	d = readtsv('res/en-de.tsv')
+	-- Print help message if no arg is given
+	print('usage: '..arg[0]..' [lang] [opt]')
+	print('available options:\n\tr\tplay the reverse game')
+	os.exit(2)
 else
 	lang = arg[1]
 	d = readtsv('res/en-'..lang..'.tsv')
@@ -87,6 +88,7 @@ io.flush()
 -- Game loop
 while lose <= max do
 	-- Grab a random word
+	-- Also change order if in reverse mode
 	if arg[1] == 'r' or arg[2] == 'r' then
 		ans, word, position = getword(d)
 	else
