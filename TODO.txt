@@ -1,0 +1,15 @@
+BUGS:
+- 'reverse' game mode has question-answer order wrong
+- no real way to 'cancel' or 'quit' game, aside from losing
+
+FEATURES:
+- improve option to write or just guess the word (maybe split them into two separate modes?)
+- export to scoreboard
+- custom dictionaries inside program? 
+- install & uninstall script
+- configuration via environmental vars
+
+GRAPHICS:
+- finish terminal version
+    - maybe some sort of TUI, with simple colors and shapes
+- start working on a graphical version (using Tk?)
