@@ -11,11 +11,8 @@
 
 math.randomseed(os.time())
 
--- Player score and lose count
+-- Player score
 local score = 0
-local lose = 0
--- Maximum number of wrong guesses
-local max = 3
 -- Maximum number of words to choose from
 local maxopt = 4
 -- Others
@@ -52,29 +49,30 @@ local function readtsv(filename)
 end
 
 local getword = function(data)
-	nr = math.random(1,#d)
-	print(d[nr].word)
-	print('choose:')
-	-- Randomize answer position
+	local nr = math.random(1,#data)
 	local position = math.random(1,maxopt)
-	for i=1,maxopt do
-		if i == position then
-			print('\t'..d[nr].def)
-		else
-			print('\t'..d[math.random(1,#d)].def)
-		end
-	end
-
-	-- Get the word and its true definition
-	return d[nr].word, d[nr].def, position
+	-- Return the word, its true definition, and position
+	return data[nr].word, data[nr].def, position
 end
 
--- Read 'database'
+local printword = function(data, word, def, position)
+	print(word)
+	print('choose:')
+	-- Randomize answer position
+	for i=1,maxopt do
+		if i == position then
+			print('\t'..def)
+		else
+			print('\t'..data[math.random(1,#data)].def)
+		end
+	end
+end
+
+-- Reading the dictionary 'database'
 -- User can also choose language
 if #arg < 1 then
 	-- Print help message if no arg is given
 	print('usage: '..arg[0]..' [lang] [opt]')
-	print('available options:\n\tr\tplay the reverse game')
 	os.exit(2)
 else
 	lang = arg[1]
@@ -86,14 +84,9 @@ io.write(esc..'0;0H'..esc..'2J')
 io.flush()
 
 -- Game loop
-while lose <= max do
-	-- Grab a random word
-	-- Also change order if in reverse mode
-	if arg[1] == 'r' or arg[2] == 'r' then
-		ans, word, position = getword(d)
-	else
-		word, ans, position = getword(d)
-	end
+while score >= 0 do
+	word, ans, position = getword(d)
+	printword(d, word, ans, position)
 	
 	opt=io.read()
 
@@ -101,10 +94,10 @@ while lose <= max do
 		print(esc..'32m'..'Correct!'..esc..'m')
 		score = score+1
 	else
-		print(esc..'31mWrong! '..max-lose..' tries left.'..esc..'m')
+		print(esc..'31mWrong! '..'Score:'..score..esc..'m')
 		print(esc..'31mThe correct word was: '..esc..'m'..ans)
-		lose = lose+1
+		score = score-1
 	end
 end
 
-print('\nYou lost!\nscore: '..score)
+print('\nYou lost! Score: '..score)

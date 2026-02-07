@@ -3,7 +3,12 @@ BUGS:
 - no real way to 'cancel' or 'quit' game, aside from losing
 
 FEATURES:
-- improve option to write or just guess the word (maybe split them into two separate modes?)
+- different scoring methods?
+	There should be some sort of motivational factor that makes the user not
+	want to make mistakes.
+	- (currently) score goes up infinitely; game continues until user gives up
+	- idea: score goes up infinitely; game stops when user makes a mistake N times
+		- grant an extra life every 5-10 words guessed right?
 - export to scoreboard
 - custom dictionaries inside program? 
 - install & uninstall script
@@ -11,5 +16,6 @@ FEATURES:
 
 GRAPHICS:
 - finish terminal version
-    - maybe some sort of TUI, with simple colors and shapes
+	- maybe some sort of TUI, with simple colors and shapes
 - start working on a graphical version (using Tk?)
+	- if not Tk, what about a web version?

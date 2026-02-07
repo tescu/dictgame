@@ -18,7 +18,7 @@ local function readtsv(filename)
 		for field in line:gmatch("([^\t]+)") do
 			table.insert(fields, field)
 		end
-		print(fields[1]..'\t'..fields[2])
+		print(fields[2]..'\t'..fields[1])
 		i=i+1
 	end
 	

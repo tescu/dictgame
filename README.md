@@ -1,11 +1,11 @@
 # dictgame
 
-# THIS PROJECT IS WIP.
+## PROTOTYPE VERSION
 
 `dictgame` is a simple terminal program written in Lua that gives the user
 a random word in a chosen language, and four possible translations.
-The goal is to select the correct translation of the word. 3 mistakes result in
-losing the game.
+The goal is to select the correct translation of the word. Each time the
+user guesses a word right, the score will increase. 
 
 More game modes are planned.
 
@@ -22,3 +22,7 @@ Prototype screenshot:
 
 * The English-Greek dictionary was manually interpreted from the
   [FreeDict](https://freedict.org/) database.
+
+* The Hungarian and Romanian dictionaries were manually interpreted from a custom spellcheck library.
+
+* The Korean dictionary features common TOPIK I and TOPIK II vocabulary.
