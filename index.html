@@ -16,15 +16,19 @@
 			font-weight: bold;
 			color: #00bb00;
 		}
-		#result {
+		#message {
 			margin-top: 20px;
 			font-size: 24px;
 			font-weight: bold;
+			color: #0000bb;
 		}
 		button {
 			padding: 10px 20px;
 			font-size: 18px;
 			margin: 10px;
+		}
+		.hidden {
+			display: none;
 		}
 	</style>
 </head>
@@ -44,39 +48,55 @@
 <!-- interface -->
 <button id="load">Load</button>
 <button id="startgame" disabled>Start</button>
+<button id="restart" class="hidden">Restart</button>
 
+<div id="scorecount"></div>
 <div id="gword"></div>
-<div id="option1"></div>
-<div id="option2"></div>
-<div id="option3"></div>
-<div id="option4"></div>
+<div id="buttons" class="hidden">
+	<button class="options">1</button>
+	<button class="options">2</button>
+	<button class="options">3</button>
+	<button class="options">4</button>
+</div>
+<div id="message"></div>
 
 <script>
+	let show = 0;
+	let score = 0;
 	let words = [];
 
 	// load the TSV dictionary
 	async function loadTSV(url) {
-		const response = await fetch(url);
-		const text = await response.text();
-	// Split file by line
-		const lines = text.trim().split('\n');
-	// Clear previous words
-		words = [];
+		try {
+			const response = await fetch(url);
+			// Check if ok
+			if (!response.ok) throw new Error("Could not load file.");
 
-		// parsing
-		lines.forEach(line => {
-		// split by tabs (duh)
-			const [word, def] = line.split('\t');
-			words.push({ word, def});
-		});
-		
-		// Enable the button after loading the file
-		document.getElementById('startgame').disabled = false;
-		document.getElementById('gword').textContent = 'Language ready! Have fun!';
-		document.getElementById('option1').textContent = '';
-		document.getElementById('option2').textContent = '';
-		document.getElementById('option3').textContent = '';
-		document.getElementById('option4').textContent = '';
+			// prepare text
+			const text = await response.text();
+			const lines = text.trim().split('\n');
+			words = [];
+
+			// Parsing
+			lines.forEach(line => {
+			// split by tabs (duh)
+				const [word, def] = line.split('\t');
+				words.push({ word, def});
+			});
+			
+			// Enable the button after loading the file
+			document.getElementById('startgame').disabled = false;
+			document.getElementById('gword').textContent = 'Language ready! Have fun!';
+			// Make buttons and text visible (only once)
+			if (show === 0) {
+				document.getElementById('buttons').classList.toggle('hidden');
+				document.getElementById('restart').classList.toggle('hidden');
+				document.getElementById('scorecount').textContent = `Score: ${score}`;
+				show = 1;
+			}
+		} catch (error) {
+			document.getElementById('gword').textContent = error.message;
+		}
 	}
 
 	// Game loop
@@ -84,11 +104,42 @@
 		if (words.length > 0) {
 			const rnd = Math.floor(Math.random() * words.length);
 			const dict = words[rnd];
-			document.getElementById('gword').textContent = `${dict.word}`;
-			document.getElementById('option1').textContent =  `${dict.def}`;
+			const pos = Math.floor(Math.random() * 4);
+
+			document.getElementById('gword').textContent = dict.word;
+
+			// Loop through option buttons
+			const bt = document.querySelectorAll('.options');
+			
+			bt.forEach((btn, index) => {
+				// display the correct word in random places
+				if (index === pos) {
+					btn.textContent = dict.def;
+				} else {
+					let rndindex;
+					do {
+						// choose another random word
+						rndindex = Math.floor(Math.random() * words.length);
+					} while (rndindex === rnd); // don't choose the same word
+					btn.textContent = words[rndindex].def;
+				}
+				btn.onclick = () => checkword(index, pos);
+			});
 		} else {
 			document.getElementById('gword').textContent = 'Choose and load a language first!';
 		}
+	}
+
+	function checkword(index, pos) {
+		if (index === pos) {
+			score++;
+			document.getElementById('message').textContent = `Correct! Score: ${score}`;
+		} else {
+			score--;
+			document.getElementById('message').textContent = `Wrong! Score: ${score}`;
+		}
+		document.getElementById('scorecount').textContent = `Score: ${score}`;
+		guesser();
 	}
 
 	// load a language
@@ -99,6 +150,12 @@
 
 	// Game start
 	document.getElementById('startgame').addEventListener('click', guesser);
+	document.getElementById('restart').addEventListener('click', function() {
+		score = 0;
+		document.getElementById('scorecount').textContent = `Score: ${score}`;
+		document.getElementById(`restart`).classList.add('hidden');
+		guesser();
+	});
 </script>
 
 </body>
