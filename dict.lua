@@ -98,11 +98,11 @@ while lose <= max do
 	opt=io.read()
 
 	if opt == ans or tonumber(opt) == position then
-		print(esc..'31m'..'Correct!'..esc..'m')
+		print(esc..'32m'..'Correct!'..esc..'m')
 		score = score+1
 	else
-		print(esc..'32mWrong! '..max-lose..' tries left.'..esc..'m')
-		print(esc..'32mThe correct word was: '..esc..'m'..ans)
+		print(esc..'31mWrong! '..max-lose..' tries left.'..esc..'m')
+		print(esc..'31mThe correct word was: '..esc..'m'..ans)
 		lose = lose+1
 	end
 end
