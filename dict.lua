@@ -1,14 +1,5 @@
 #!/usr/bin/env lua
--- Dictgame
--- TODO (in order of importance):
--- * choose language at runtime
---   X also perhaps only require one file for a language, reversing its entries?
--- X option between typing the word or choosing it via its assigned number
--- X randomize options
--- * make interface pretty/readable
--- * more game modes
--- X more languages
-
+-- vocablearner (CLI version) 
 math.randomseed(os.time())
 
 -- Player score
@@ -85,6 +76,8 @@ io.flush()
 
 -- Game loop
 while score >= 0 do
+	io.write(esc..'0;0H'..esc..'2J')
+	io.flush()
 	word, ans, position = getword(d)
 	printword(d, word, ans, position)
 	
@@ -98,6 +91,7 @@ while score >= 0 do
 		print(esc..'31mThe correct word was: '..esc..'m'..ans)
 		score = score-1
 	end
+	io.read()
 end
 
 print('\nYou lost! Score: '..score)
