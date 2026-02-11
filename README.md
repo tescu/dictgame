@@ -18,17 +18,21 @@ This tool is not meant to _teach_ you a language, just to aid in vocabulary buil
 
 ![demo](./etc/demo.png)
 
+# Supported languages
+
+As of right now, __vocablearner__ features: German, Greek, Hungarian, Korean, Mandarin Chinese, Romanian.
+
 # License
 Source-code is licensed under the GNU GPLv3. See [LICENSE](./LICENSE) for details.
 
 # Dictionaries
 
-* The English-German dictionary was interpreted from the Project Gutenberg
-  book ["Mr. Honey's Dictionary"](https://www.gutenberg.org/ebooks/3212).
+* English-German dictionary interpreted from the Project Gutenberg book ["Mr. Honey's Dictionary"](https://www.gutenberg.org/ebooks/3212).
 
-* The English-Greek dictionary was manually interpreted from the
-  [FreeDict](https://freedict.org/) database.
+* English-Greek dictionary manually interpreted from the [FreeDict](https://freedict.org/) database.
 
-* The Hungarian and Romanian dictionaries were manually interpreted from a custom spellcheck library.
+* Mandarin Chinese HSK vocabulary lists interpreted from [HSK Academy](https://hsk.academy/en/).
 
-* The Korean dictionary features common TOPIK I and TOPIK II vocabulary.
+* Hungarian and Romanian dictionaries manually interpreted from a custom spellcheck library.
+
+* Korean dictionary features common TOPIK I and TOPIK II vocabulary.
