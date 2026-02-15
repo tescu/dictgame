@@ -20,7 +20,7 @@ This tool is not meant to _teach_ you a language, just to aid in vocabulary buil
 
 # Supported languages
 
-As of right now, __vocablearner__ features: German, Greek, Hungarian, Korean, Mandarin Chinese, Romanian.
+As of right now, __vocablearner__ features: German, Greek, Hungarian, Korean, Mandarin Chinese, Romanian, Russian, Vietnamese.
 
 # License
 Source-code is licensed under the GNU GPLv3. See [LICENSE](./LICENSE) for details.
@@ -35,6 +35,10 @@ Source-code is licensed under the GNU GPLv3. See [LICENSE](./LICENSE) for detail
 
 * Hungarian and Romanian dictionaries manually interpreted from a custom spellcheck library.
 
-* Japanese JLPT word lists from [jisho](https://jisho.org).
+* Japanese JLPT word lists interpreted from [jisho](https://jisho.org).
 
 * Korean dictionary features common TOPIK I and TOPIK II vocabulary.
+
+* Russian dictionary interpreted from [this GitHub repository](https://github.com/iuzhakov/English-Russian-vocabulary).
+
+* Vietnamese dictionary manually interpreted from a number of word lists.
